@@ -60,8 +60,8 @@ nav {
   text-decoration: none;
 }
 .nav-logo .logo-mark {
-  width: 32px;
-  height: 32px;
+  width: 60px;
+  height: 60px;
   background: var(--accent);
   border-radius: 7px;
   display: flex;
@@ -70,6 +70,11 @@ nav {
   font-size: 14px;
   font-weight: 800;
   color: var(--navy);
+}
+.nav-logo-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
 }
 .nav-links {
   display: flex;
@@ -588,6 +593,11 @@ footer a {
   height: 22px;
   background: var(--accent);
   border-radius: 5px;
+}
+.mock-sidebar-logo-img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 .mock-nav-item {
   padding: 0.5rem 0.75rem;
