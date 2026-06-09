@@ -1,671 +1,1148 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RackWise WMS — Warehouse Management System</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RackWise WMS — Warehouse Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-  :root {
-    --navy: #03080f;
-    --navy-mid: #0d1a2b;
-    --navy-light: #162236;
-    --accent: #00c9a7;
-    --accent-dark: #009e84;
-    --accent-dim: rgba(0,201,167,0.12);
-    --accent-glow: rgba(0,201,167,0.25);
-    --text: #e8f0fe;
-    --text-muted: #8a9bb5;
-    --text-dim: #4a5b72;
-    --border: rgba(0,201,167,0.18);
-    --border-soft: rgba(255,255,255,0.07);
-    --white: #ffffff;
-  }
+      :root {
+        --navy: #03080f;
+        --navy-mid: #0d1a2b;
+        --navy-light: #162236;
+        --accent: #00c9a7;
+        --accent-dark: #009e84;
+        --accent-dim: rgba(0, 201, 167, 0.12);
+        --accent-glow: rgba(0, 201, 167, 0.25);
+        --text: #e8f0fe;
+        --text-muted: #8a9bb5;
+        --text-dim: #4a5b72;
+        --border: rgba(0, 201, 167, 0.18);
+        --border-soft: rgba(255, 255, 255, 0.07);
+        --white: #ffffff;
+      }
 
-  html { scroll-behavior: smooth; }
+      html {
+        scroll-behavior: smooth;
+      }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--navy);
-    color: var(--text);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--navy);
+        color: var(--text);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1rem 2.5rem;
-    background: rgba(3,8,15,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-soft);
-  }
-  .nav-logo {
-    display: flex; align-items: center; gap: 10px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700; font-size: 1.25rem; color: var(--white);
-    text-decoration: none;
-  }
-  .nav-logo .logo-mark {
-    width: 32px; height: 32px;
-    background: var(--accent);
-    border-radius: 7px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 800; color: var(--navy);
-  }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color .2s; }
-  .nav-links a:hover { color: var(--accent); }
-  .nav-cta {
-    background: var(--accent); color: var(--navy);
-    padding: 0.5rem 1.25rem; border-radius: 8px;
-    font-weight: 600; font-size: 0.875rem;
-    text-decoration: none; transition: background .2s;
-  }
-  .nav-cta:hover { background: var(--accent-dark); }
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 2.5rem;
+        background: rgba(3, 8, 15, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-soft);
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--white);
+        text-decoration: none;
+      }
+      .nav-logo .logo-mark {
+        width: 32px;
+        height: 32px;
+        background: var(--accent);
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--navy);
+      }
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+      .nav-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+      .nav-cta {
+        background: var(--accent);
+        color: var(--navy);
+        padding: 0.5rem 1.25rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .nav-cta:hover {
+        background: var(--accent-dark);
+      }
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center;
-    padding: 7rem 2rem 5rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,201,167,0.15) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 80% 80%, rgba(0,150,200,0.08) 0%, transparent 50%);
-    pointer-events: none;
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: var(--accent-dim); border: 1px solid var(--border);
-    color: var(--accent); font-size: 0.8rem; font-weight: 600;
-    padding: 0.35rem 1rem; border-radius: 100px;
-    margin-bottom: 2rem; letter-spacing: 0.05em;
-  }
-  .hero-badge .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
-  h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 700; line-height: 1.1;
-    color: var(--white);
-    max-width: 820px;
-    margin-bottom: 1.5rem;
-  }
-  h1 em {
-    font-style: normal;
-    color: var(--accent);
-  }
-  .hero-sub {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    color: var(--text-muted);
-    max-width: 600px;
-    margin-bottom: 3rem;
-    line-height: 1.7;
-  }
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-  .btn-primary {
-    background: var(--accent); color: var(--navy);
-    padding: 0.85rem 2rem; border-radius: 10px;
-    font-weight: 700; font-size: 1rem;
-    text-decoration: none; transition: all .2s;
-  }
-  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); }
-  .btn-secondary {
-    background: transparent; color: var(--text);
-    padding: 0.85rem 2rem; border-radius: 10px;
-    font-weight: 500; font-size: 1rem;
-    text-decoration: none; border: 1px solid var(--border-soft);
-    transition: all .2s;
-  }
-  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+      /* HERO */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 7rem 2rem 5rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 50% -10%,
+            rgba(0, 201, 167, 0.15) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 40% 40% at 80% 80%,
+            rgba(0, 150, 200, 0.08) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--accent-dim);
+        border: 1px solid var(--border);
+        color: var(--accent);
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.35rem 1rem;
+        border-radius: 100px;
+        margin-bottom: 2rem;
+        letter-spacing: 0.05em;
+      }
+      .hero-badge .dot {
+        width: 6px;
+        height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+      }
+      h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 700;
+        line-height: 1.1;
+        color: var(--white);
+        max-width: 820px;
+        margin-bottom: 1.5rem;
+      }
+      h1 em {
+        font-style: normal;
+        color: var(--accent);
+      }
+      .hero-sub {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        color: var(--text-muted);
+        max-width: 600px;
+        margin-bottom: 3rem;
+        line-height: 1.7;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: var(--navy);
+        padding: 0.85rem 2rem;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .btn-primary:hover {
+        background: var(--accent-dark);
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        padding: 0.85rem 2rem;
+        border-radius: 10px;
+        font-weight: 500;
+        font-size: 1rem;
+        text-decoration: none;
+        border: 1px solid var(--border-soft);
+        transition: all 0.2s;
+      }
+      .btn-secondary:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-2px);
+      }
 
-  /* STATS */
-  .stats {
-    display: flex; justify-content: center; gap: 0; flex-wrap: wrap;
-    margin-top: 4rem;
-    border: 1px solid var(--border-soft);
-    border-radius: 14px;
-    overflow: hidden;
-    max-width: 720px;
-    width: 100%;
-  }
-  .stat-item {
-    flex: 1; min-width: 160px;
-    padding: 1.5rem 2rem;
-    text-align: center;
-    border-right: 1px solid var(--border-soft);
-    background: rgba(255,255,255,0.02);
-  }
-  .stat-item:last-child { border-right: none; }
-  .stat-num {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2rem; font-weight: 700; color: var(--accent);
-    display: block;
-  }
-  .stat-label { font-size: 0.8rem; color: var(--text-muted); }
+      /* STATS */
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 0;
+        flex-wrap: wrap;
+        margin-top: 4rem;
+        border: 1px solid var(--border-soft);
+        border-radius: 14px;
+        overflow: hidden;
+        max-width: 720px;
+        width: 100%;
+      }
+      .stat-item {
+        flex: 1;
+        min-width: 160px;
+        padding: 1.5rem 2rem;
+        text-align: center;
+        border-right: 1px solid var(--border-soft);
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .stat-item:last-child {
+        border-right: none;
+      }
+      .stat-num {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--accent);
+        display: block;
+      }
+      .stat-label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
 
-  /* SECTION */
-  section { padding: 5rem 2rem; }
-  .container { max-width: 1100px; margin: 0 auto; }
-  .section-label {
-    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
-    color: var(--accent); text-transform: uppercase; margin-bottom: 0.75rem;
-  }
-  h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 700; color: var(--white);
-    line-height: 1.2; margin-bottom: 1rem;
-  }
-  .section-sub { color: var(--text-muted); font-size: 1.05rem; max-width: 580px; line-height: 1.7; }
+      /* SECTION */
+      section {
+        padding: 5rem 2rem;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .section-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+      }
+      h2 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 700;
+        color: var(--white);
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+      .section-sub {
+        color: var(--text-muted);
+        font-size: 1.05rem;
+        max-width: 580px;
+        line-height: 1.7;
+      }
 
-  /* FEATURES GRID */
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-  .feature-card {
-    background: var(--navy-light);
-    border: 1px solid var(--border-soft);
-    border-radius: 14px;
-    padding: 1.75rem;
-    transition: border-color .25s, transform .25s;
-  }
-  .feature-card:hover { border-color: var(--border); transform: translateY(-4px); }
-  .feature-icon {
-    width: 46px; height: 46px;
-    background: var(--accent-dim);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 1.25rem;
-  }
-  .feature-icon svg { width: 22px; height: 22px; stroke: var(--accent); fill: none; stroke-width: 1.8; }
-  .feature-card h3 { font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: 0.6rem; }
-  .feature-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+      /* FEATURES GRID */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+      .feature-card {
+        background: var(--navy-light);
+        border: 1px solid var(--border-soft);
+        border-radius: 14px;
+        padding: 1.75rem;
+        transition:
+          border-color 0.25s,
+          transform 0.25s;
+      }
+      .feature-card:hover {
+        border-color: var(--border);
+        transform: translateY(-4px);
+      }
+      .feature-icon {
+        width: 46px;
+        height: 46px;
+        background: var(--accent-dim);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.25rem;
+      }
+      .feature-icon svg {
+        width: 22px;
+        height: 22px;
+        stroke: var(--accent);
+        fill: none;
+        stroke-width: 1.8;
+      }
+      .feature-card h3 {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 0.6rem;
+      }
+      .feature-card p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.65;
+      }
 
-  /* MODULE LIST */
-  .modules-section { background: var(--navy-mid); }
-  .modules-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    margin-top: 2.5rem;
-  }
-  .module-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 1rem 1.25rem;
-    background: var(--navy);
-    border: 1px solid var(--border-soft);
-    border-radius: 10px;
-    transition: border-color .2s;
-  }
-  .module-item:hover { border-color: var(--accent); }
-  .module-num {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.7rem; font-weight: 700;
-    color: var(--accent);
-    background: var(--accent-dim);
-    width: 26px; height: 26px;
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .module-item span { font-size: 0.9rem; color: var(--text); font-weight: 500; }
+      /* MODULE LIST */
+      .modules-section {
+        background: var(--navy-mid);
+      }
+      .modules-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-top: 2.5rem;
+      }
+      .module-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 1rem 1.25rem;
+        background: var(--navy);
+        border: 1px solid var(--border-soft);
+        border-radius: 10px;
+        transition: border-color 0.2s;
+      }
+      .module-item:hover {
+        border-color: var(--accent);
+      }
+      .module-num {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--accent);
+        background: var(--accent-dim);
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .module-item span {
+        font-size: 0.9rem;
+        color: var(--text);
+        font-weight: 500;
+      }
 
-  /* HOW IT WORKS */
-  .steps { display: flex; flex-direction: column; gap: 2rem; margin-top: 3rem; position: relative; }
-  .steps::before {
-    content: '';
-    position: absolute; left: 23px; top: 46px; bottom: 46px;
-    width: 2px; background: linear-gradient(to bottom, var(--accent), transparent);
-  }
-  .step { display: flex; gap: 1.5rem; align-items: flex-start; }
-  .step-num {
-    flex-shrink: 0; width: 46px; height: 46px;
-    border-radius: 50%; border: 2px solid var(--accent);
-    background: var(--navy); color: var(--accent);
-    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem;
-    display: flex; align-items: center; justify-content: center;
-    position: relative; z-index: 1;
-  }
-  .step-content h3 { font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: 0.4rem; }
-  .step-content p { font-size: 0.9rem; color: var(--text-muted); }
+      /* HOW IT WORKS */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-top: 3rem;
+        position: relative;
+      }
+      .steps::before {
+        content: "";
+        position: absolute;
+        left: 23px;
+        top: 46px;
+        bottom: 46px;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--accent), transparent);
+      }
+      .step {
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-start;
+      }
+      .step-num {
+        flex-shrink: 0;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 2px solid var(--accent);
+        background: var(--navy);
+        color: var(--accent);
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+      }
+      .step-content h3 {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 0.4rem;
+      }
+      .step-content p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
 
-  /* TECH STACK */
-  .tech-badges { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
-  .tech-badge {
-    padding: 0.4rem 1rem;
-    border: 1px solid var(--border-soft);
-    border-radius: 100px;
-    font-size: 0.85rem; color: var(--text-muted);
-    background: var(--navy-light);
-  }
+      /* TECH STACK */
+      .tech-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 2rem;
+      }
+      .tech-badge {
+        padding: 0.4rem 1rem;
+        border: 1px solid var(--border-soft);
+        border-radius: 100px;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        background: var(--navy-light);
+      }
 
-  /* CTA SECTION */
-  .cta-section {
-    text-align: center;
-    background: linear-gradient(135deg, var(--navy-mid), var(--navy));
-    border-top: 1px solid var(--border-soft);
-    border-bottom: 1px solid var(--border-soft);
-    padding: 6rem 2rem;
-  }
-  .cta-section h2 { margin-bottom: 1rem; }
-  .cta-section p { color: var(--text-muted); margin-bottom: 2.5rem; font-size: 1.05rem; }
-  .cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+      /* CTA SECTION */
+      .cta-section {
+        text-align: center;
+        background: linear-gradient(135deg, var(--navy-mid), var(--navy));
+        border-top: 1px solid var(--border-soft);
+        border-bottom: 1px solid var(--border-soft);
+        padding: 6rem 2rem;
+      }
+      .cta-section h2 {
+        margin-bottom: 1rem;
+      }
+      .cta-section p {
+        color: var(--text-muted);
+        margin-bottom: 2.5rem;
+        font-size: 1.05rem;
+      }
+      .cta-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
 
-  /* FOOTER */
-  footer {
-    padding: 3rem 2rem;
-    text-align: center;
-    color: var(--text-dim);
-    font-size: 0.85rem;
-    border-top: 1px solid var(--border-soft);
-  }
-  footer a { color: var(--accent); text-decoration: none; }
+      /* FOOTER */
+      footer {
+        padding: 3rem 2rem;
+        text-align: center;
+        color: var(--text-dim);
+        font-size: 0.85rem;
+        border-top: 1px solid var(--border-soft);
+      }
+      footer a {
+        color: var(--accent);
+        text-decoration: none;
+      }
 
-  /* DIVIDER */
-  .divider {
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--border-soft), transparent);
-    margin: 0;
-  }
+      /* DIVIDER */
+      .divider {
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--border-soft),
+          transparent
+        );
+        margin: 0;
+      }
 
-  /* APP MOCKUP */
-  .mockup-wrap {
-    margin-top: 4rem;
-    border-radius: 14px;
-    overflow: hidden;
-    border: 1px solid var(--border-soft);
-    background: var(--navy-light);
-    max-width: 960px;
-    margin-left: auto; margin-right: auto;
-  }
-  .mockup-bar {
-    background: var(--navy-mid);
-    padding: 0.75rem 1.25rem;
-    display: flex; align-items: center; gap: 8px;
-    border-bottom: 1px solid var(--border-soft);
-  }
-  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .mockup-url {
-    flex: 1; margin-left: 8px;
-    background: var(--navy); border-radius: 6px;
-    padding: 0.3rem 0.8rem;
-    font-size: 0.75rem; color: var(--text-muted);
-    font-family: monospace;
-  }
-  .mockup-dashboard {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    min-height: 400px;
-  }
-  .mock-sidebar {
-    background: rgba(0,0,0,0.3);
-    padding: 1.25rem 1rem;
-    border-right: 1px solid var(--border-soft);
-  }
-  .mock-sidebar-logo {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700; font-size: 1rem; color: var(--white);
-    margin-bottom: 1.5rem; padding-left: 4px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .mock-sidebar-logo .mk { width: 22px; height: 22px; background: var(--accent); border-radius: 5px; }
-  .mock-nav-item {
-    padding: 0.5rem 0.75rem; border-radius: 7px;
-    font-size: 0.8rem; color: var(--text-muted);
-    margin-bottom: 3px; cursor: default;
-  }
-  .mock-nav-item.active { background: var(--accent-dim); color: var(--accent); }
-  .mock-content { padding: 1.5rem; }
-  .mock-title { font-size: 0.9rem; font-weight: 600; color: var(--white); margin-bottom: 1rem; }
-  .mock-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 1rem; }
-  .mock-card {
-    background: var(--navy-mid); border-radius: 8px;
-    padding: 0.85rem; border: 1px solid var(--border-soft);
-  }
-  .mock-card .mc-val { font-size: 1.25rem; font-weight: 700; font-family: 'Space Grotesk', sans-serif; color: var(--accent); }
-  .mock-card .mc-lbl { font-size: 0.65rem; color: var(--text-dim); margin-top: 2px; }
-  .mock-table { width: 100%; border-collapse: collapse; }
-  .mock-table th {
-    text-align: left; font-size: 0.7rem; color: var(--text-dim); font-weight: 500;
-    padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border-soft);
-  }
-  .mock-table td {
-    padding: 0.5rem 0.6rem; font-size: 0.78rem; color: var(--text-muted);
-    border-bottom: 1px solid rgba(255,255,255,0.03);
-  }
-  .badge {
-    display: inline-block; padding: 2px 8px; border-radius: 5px;
-    font-size: 0.68rem; font-weight: 600;
-  }
-  .badge-green { background: rgba(0,201,167,0.15); color: var(--accent); }
-  .badge-amber { background: rgba(250,199,117,0.15); color: #fac775; }
-  .badge-blue { background: rgba(56,138,221,0.15); color: #85b7eb; }
+      /* APP MOCKUP */
+      .mockup-wrap {
+        margin-top: 4rem;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid var(--border-soft);
+        background: var(--navy-light);
+        max-width: 960px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .mockup-bar {
+        background: var(--navy-mid);
+        padding: 0.75rem 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid var(--border-soft);
+      }
+      .mockup-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .mockup-url {
+        flex: 1;
+        margin-left: 8px;
+        background: var(--navy);
+        border-radius: 6px;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        font-family: monospace;
+      }
+      .mockup-dashboard {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        min-height: 400px;
+      }
+      .mock-sidebar {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1.25rem 1rem;
+        border-right: 1px solid var(--border-soft);
+      }
+      .mock-sidebar-logo {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--white);
+        margin-bottom: 1.5rem;
+        padding-left: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .mock-sidebar-logo .mk {
+        width: 22px;
+        height: 22px;
+        background: var(--accent);
+        border-radius: 5px;
+      }
+      .mock-nav-item {
+        padding: 0.5rem 0.75rem;
+        border-radius: 7px;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 3px;
+        cursor: default;
+      }
+      .mock-nav-item.active {
+        background: var(--accent-dim);
+        color: var(--accent);
+      }
+      .mock-content {
+        padding: 1.5rem;
+      }
+      .mock-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 1rem;
+      }
+      .mock-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 1rem;
+      }
+      .mock-card {
+        background: var(--navy-mid);
+        border-radius: 8px;
+        padding: 0.85rem;
+        border: 1px solid var(--border-soft);
+      }
+      .mock-card .mc-val {
+        font-size: 1.25rem;
+        font-weight: 700;
+        font-family: "Space Grotesk", sans-serif;
+        color: var(--accent);
+      }
+      .mock-card .mc-lbl {
+        font-size: 0.65rem;
+        color: var(--text-dim);
+        margin-top: 2px;
+      }
+      .mock-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .mock-table th {
+        text-align: left;
+        font-size: 0.7rem;
+        color: var(--text-dim);
+        font-weight: 500;
+        padding: 0.4rem 0.6rem;
+        border-bottom: 1px solid var(--border-soft);
+      }
+      .mock-table td {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 5px;
+        font-size: 0.68rem;
+        font-weight: 600;
+      }
+      .badge-green {
+        background: rgba(0, 201, 167, 0.15);
+        color: var(--accent);
+      }
+      .badge-amber {
+        background: rgba(250, 199, 117, 0.15);
+        color: #fac775;
+      }
+      .badge-blue {
+        background: rgba(56, 138, 221, 0.15);
+        color: #85b7eb;
+      }
 
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.25rem; }
-    .nav-links { display: none; }
-    .mockup-dashboard { grid-template-columns: 1fr; }
-    .mock-sidebar { display: none; }
-    .mock-cards { grid-template-columns: repeat(2, 1fr); }
-    .steps::before { display: none; }
-  }
-</style>
-</head>
-<body>
+      @media (max-width: 768px) {
+        nav {
+          padding: 1rem 1.25rem;
+        }
+        .nav-links {
+          display: none;
+        }
+        .mockup-dashboard {
+          grid-template-columns: 1fr;
+        }
+        .mock-sidebar {
+          display: none;
+        }
+        .mock-cards {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .steps::before {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <a href="#" class="nav-logo">
+        <div class="logo-mark">RW</div>
+        RackWise
+      </a>
+      <ul class="nav-links">
+        <li><a href="#fitur">Fitur</a></li>
+        <li><a href="#modul">Modul</a></li>
+        <li><a href="#cara-kerja">Cara Kerja</a></li>
+        <li><a href="#teknologi">Teknologi</a></li>
+      </ul>
+      <a href="https://rackwise-wms.vercel.app/" target="_blank" class="nav-cta"
+        >Coba Sekarang →</a
+      >
+    </nav>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">
-    <div class="logo-mark">RW</div>
-    RackWise
-  </a>
-  <ul class="nav-links">
-    <li><a href="#fitur">Fitur</a></li>
-    <li><a href="#modul">Modul</a></li>
-    <li><a href="#cara-kerja">Cara Kerja</a></li>
-    <li><a href="#teknologi">Teknologi</a></li>
-  </ul>
-  <a href="https://rackwise-wms.vercel.app/" target="_blank" class="nav-cta">Coba Sekarang →</a>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-badge">
-    <span class="dot"></span>
-    WMS v3.0 · Cold Storage Ready
-  </div>
-  <h1>Kelola Gudang Anda dengan <em>Presisi & Efisiensi</em></h1>
-  <p class="hero-sub">
-    RackWise adalah sistem manajemen gudang (WMS) berbasis web yang dirancang khusus untuk kebutuhan cold storage dan distribusi modern — dari penerimaan barang hingga pengiriman, semua dalam satu platform.
-  </p>
-  <div class="hero-actions">
-    <a href="https://rackwise-wms.vercel.app/" target="_blank" class="btn-primary">Mulai Demo Gratis</a>
-    <a href="#fitur" class="btn-secondary">Pelajari Fitur</a>
-  </div>
-
-  <div class="stats">
-    <div class="stat-item">
-      <span class="stat-num">10+</span>
-      <span class="stat-label">Modul Manajemen</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">Real-time</span>
-      <span class="stat-label">Pantau Stok</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">100%</span>
-      <span class="stat-label">Berbasis Web</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">v3.0</span>
-      <span class="stat-label">Versi Terbaru</span>
-    </div>
-  </div>
-
-  <!-- App Mockup -->
-  <div class="mockup-wrap" style="margin-top: 4rem;">
-    <div class="mockup-bar">
-      <div class="mockup-dot" style="background:#ff5f57;"></div>
-      <div class="mockup-dot" style="background:#febc2e;"></div>
-      <div class="mockup-dot" style="background:#28c840;"></div>
-      <div class="mockup-url">https://rackwise-wms.vercel.app/dashboard</div>
-    </div>
-    <div class="mockup-dashboard">
-      <div class="mock-sidebar">
-        <div class="mock-sidebar-logo"><div class="mk"></div> RackWise</div>
-        <div class="mock-nav-item active">📊 Dashboard</div>
-        <div class="mock-nav-item">📦 Inbound</div>
-        <div class="mock-nav-item">🚚 Outbound</div>
-        <div class="mock-nav-item">🏭 Inventory</div>
-        <div class="mock-nav-item">📍 Lokasi Rak</div>
-        <div class="mock-nav-item">📋 Laporan</div>
-        <div class="mock-nav-item">⚙️ Pengaturan</div>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        WMS v3.0 · Cold Storage Ready
       </div>
-      <div class="mock-content">
-        <div class="mock-title">Dashboard — Ringkasan Hari Ini</div>
-        <div class="mock-cards">
-          <div class="mock-card">
-            <div class="mc-val">1,284</div>
-            <div class="mc-lbl">Total SKU</div>
+      <h1>Kelola Gudang Anda dengan <em>Presisi & Efisiensi</em></h1>
+      <p class="hero-sub">
+        RackWise adalah sistem manajemen gudang (WMS) berbasis web yang
+        dirancang khusus untuk kebutuhan cold storage dan distribusi modern —
+        dari penerimaan barang hingga pengiriman, semua dalam satu platform.
+      </p>
+      <div class="hero-actions">
+        <a
+          href="https://rackwise-wms.vercel.app/"
+          target="_blank"
+          class="btn-primary"
+          >Mulai Demo Gratis</a
+        >
+        <a href="#fitur" class="btn-secondary">Pelajari Fitur</a>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">
+          <span class="stat-num">10+</span>
+          <span class="stat-label">Modul Manajemen</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">Real-time</span>
+          <span class="stat-label">Pantau Stok</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Berbasis Web</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">QR</span>
+          <span class="stat-label">Code Label Support</span>
+        </div>
+      </div>
+
+      <!-- App Mockup -->
+      <div class="mockup-wrap" style="margin-top: 4rem">
+        <div class="mockup-bar">
+          <div class="mockup-dot" style="background: #ff5f57"></div>
+          <div class="mockup-dot" style="background: #febc2e"></div>
+          <div class="mockup-dot" style="background: #28c840"></div>
+          <div class="mockup-url">
+            https://rackwise-wms.vercel.app/dashboard
           </div>
-          <div class="mock-card">
-            <div class="mc-val" style="color:#fac775;">38</div>
-            <div class="mc-lbl">Penerimaan Hari Ini</div>
+        </div>
+        <div class="mockup-dashboard">
+          <div class="mock-sidebar">
+            <div class="mock-sidebar-logo">
+              <div class="mk"></div>
+              RackWise
+            </div>
+            <div class="mock-nav-item active">📊 Dashboard</div>
+            <div class="mock-nav-item">📦 Inbound</div>
+            <div class="mock-nav-item">🚚 Outbound</div>
+            <div class="mock-nav-item">🏭 Inventory</div>
+            <div class="mock-nav-item">📍 Lokasi Rak</div>
+            <div class="mock-nav-item">📋 Laporan</div>
+            <div class="mock-nav-item">⚙️ Pengaturan</div>
           </div>
-          <div class="mock-card">
-            <div class="mc-val" style="color:#85b7eb;">52</div>
-            <div class="mc-lbl">Pengiriman</div>
+          <div class="mock-content">
+            <div class="mock-title">Dashboard — Ringkasan Hari Ini</div>
+            <div class="mock-cards">
+              <div class="mock-card">
+                <div class="mc-val">1,284</div>
+                <div class="mc-lbl">Total SKU</div>
+              </div>
+              <div class="mock-card">
+                <div class="mc-val" style="color: #fac775">38</div>
+                <div class="mc-lbl">Penerimaan Hari Ini</div>
+              </div>
+              <div class="mock-card">
+                <div class="mc-val" style="color: #85b7eb">52</div>
+                <div class="mc-lbl">Pengiriman</div>
+              </div>
+              <div class="mock-card">
+                <div class="mc-val" style="color: #e26b6b">7</div>
+                <div class="mc-lbl">Stok Kritis</div>
+              </div>
+            </div>
+            <table class="mock-table">
+              <thead>
+                <tr>
+                  <th>No. DO</th>
+                  <th>Produk</th>
+                  <th>Jumlah</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>DO-20260001</td>
+                  <td>Ayam Beku Premium</td>
+                  <td>240 kg</td>
+                  <td><span class="badge badge-green">Selesai</span></td>
+                </tr>
+                <tr>
+                  <td>DO-20260002</td>
+                  <td>Udang Vaname</td>
+                  <td>120 kg</td>
+                  <td><span class="badge badge-amber">Proses</span></td>
+                </tr>
+                <tr>
+                  <td>DO-20260003</td>
+                  <td>Sayuran Beku Mix</td>
+                  <td>80 kg</td>
+                  <td><span class="badge badge-blue">Menunggu</span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="mock-card">
-            <div class="mc-val" style="color:#e26b6b;">7</div>
-            <div class="mc-lbl">Stok Kritis</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- FEATURES -->
+    <section id="fitur">
+      <div class="container">
+        <div class="section-label">Keunggulan</div>
+        <h2>Dirancang untuk Operasional Gudang Modern</h2>
+        <p class="section-sub">
+          Setiap fitur dibangun untuk mengatasi tantangan nyata di gudang —
+          mulai dari akurasi stok hingga kecepatan pengiriman.
+        </p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <path d="M8 21h8M12 17v4" />
+              </svg>
+            </div>
+            <h3>Dashboard Real-Time</h3>
+            <p>
+              Pantau kondisi gudang secara langsung. Stok masuk, keluar, serta
+              status order tampil dalam satu layar yang mudah dipahami.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14" />
+                <path d="m7.5 4.27 9 5.15" />
+                <polyline points="3.29 7 12 12 20.71 7" />
+                <line x1="12" y1="22" x2="12" y2="12" />
+                <circle cx="18.5" cy="15.5" r="2.5" />
+                <path d="M20.27 17.27 22 19" />
+              </svg>
+            </div>
+            <h3>Manajemen Stok Akurat</h3>
+            <p>
+              Sistem pelacakan stok berlapis dengan kode SKU, lot, dan expired
+              date — meminimalkan selisih dan kerugian akibat salah kelola.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </div>
+            <h3>Proses Inbound & Outbound</h3>
+            <p>
+              Alur penerimaan barang (GR) dan pengiriman (DO) yang terstruktur —
+              dari pendataan, penempatan rak, hingga cetak dokumen.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="2" y="7" width="20" height="14" rx="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+              </svg>
+            </div>
+            <h3>Manajemen Lokasi Rak</h3>
+            <p>
+              Sistem peta rak (racking system) yang detail — kelola posisi
+              setiap palet, zone, dan area penyimpanan secara visual.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+            </div>
+            <h3>Laporan & Audit Trail</h3>
+            <p>
+              Riwayat lengkap setiap transaksi tersimpan otomatis. Ekspor
+              laporan stok, mutasi barang, dan rekap harian dengan mudah.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <h3>Multi-User & Role Based</h3>
+            <p>
+              Sistem hak akses bertingkat — admin, supervisor, dan operator
+              memiliki akses yang berbeda sesuai kebutuhan operasional.
+            </p>
           </div>
         </div>
-        <table class="mock-table">
-          <thead>
-            <tr>
-              <th>No. DO</th><th>Produk</th><th>Jumlah</th><th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>DO-20260001</td><td>Ayam Beku Premium</td><td>240 kg</td><td><span class="badge badge-green">Selesai</span></td></tr>
-            <tr><td>DO-20260002</td><td>Udang Vaname</td><td>120 kg</td><td><span class="badge badge-amber">Proses</span></td></tr>
-            <tr><td>DO-20260003</td><td>Sayuran Beku Mix</td><td>80 kg</td><td><span class="badge badge-blue">Menunggu</span></td></tr>
-          </tbody>
-        </table>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<div class="divider"></div>
+    <div class="divider"></div>
 
-<!-- FEATURES -->
-<section id="fitur">
-  <div class="container">
-    <div class="section-label">Keunggulan</div>
-    <h2>Dirancang untuk Operasional Gudang Modern</h2>
-    <p class="section-sub">Setiap fitur dibangun untuk mengatasi tantangan nyata di gudang — mulai dari akurasi stok hingga kecepatan pengiriman.</p>
-    <div class="features-grid">
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    <!-- MODULES -->
+    <section id="modul" class="modules-section">
+      <div class="container">
+        <div class="section-label">Modul Sistem</div>
+        <h2>Semua yang Dibutuhkan Gudang Anda</h2>
+        <p class="section-sub">
+          RackWise hadir dengan modul lengkap yang saling terintegrasi — tidak
+          perlu berpindah-pindah sistem lagi.
+        </p>
+        <div class="modules-grid">
+          <div class="module-item">
+            <div class="module-num">01</div>
+            <span>Manajemen Master Data</span>
+          </div>
+          <div class="module-item">
+            <div class="module-num">02</div>
+            <span>Penerimaan Barang (GR)</span>
+          </div>
+          <div class="module-item">
+            <div class="module-num">03</div>
+            <span>Pengeluaran Barang (DO)</span>
+          </div>
+          <div class="module-item">
+            <div class="module-num">04</div>
+            <span>Manajemen Stok & Inventory</span>
+          </div>
+          <div class="module-item">
+            <div class="module-num">05</div>
+            <span>Lokasi & Mapping Rak</span>
+          </div>
+          <div class="module-item">
+            <div class="module-num">06</div>
+            <span>Transfer Antar Lokasi</span>
+          </div>
+          <div class="module-item">
+            <div class="module-num">07</div>
+            <span>Manajemen Supplier</span>
+          </div>
+          <div class="module-item">
+            <div class="module-num">08</div>
+            <span>Manajemen Customer</span>
+          </div>
+          <div class="module-item">
+            <div class="module-num">09</div>
+            <span>Laporan & Rekap Harian</span>
+          </div>
+          <div class="module-item">
+            <div class="module-num">10</div>
+            <span>Audit Trail & History</span>
+          </div>
+          <div class="module-item">
+            <div class="module-num">11</div>
+            <span>Manajemen User & Role</span>
+          </div>
+          <div class="module-item">
+            <div class="module-num">12</div>
+            <span>Dashboard Analitik</span>
+          </div>
         </div>
-        <h3>Dashboard Real-Time</h3>
-        <p>Pantau kondisi gudang secara langsung. Stok masuk, keluar, serta status order tampil dalam satu layar yang mudah dipahami.</p>
       </div>
+    </section>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"/><path d="m7.5 4.27 9 5.15"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/><circle cx="18.5" cy="15.5" r="2.5"/><path d="M20.27 17.27 22 19"/></svg>
-        </div>
-        <h3>Manajemen Stok Akurat</h3>
-        <p>Sistem pelacakan stok berlapis dengan kode SKU, lot, dan expired date — meminimalkan selisih dan kerugian akibat salah kelola.</p>
-      </div>
+    <div class="divider"></div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-        <h3>Proses Inbound & Outbound</h3>
-        <p>Alur penerimaan barang (GR) dan pengiriman (DO) yang terstruktur — dari pendataan, penempatan rak, hingga cetak dokumen.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-        </div>
-        <h3>Manajemen Lokasi Rak</h3>
-        <p>Sistem peta rak (racking system) yang detail — kelola posisi setiap palet, zone, dan area penyimpanan secara visual.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        </div>
-        <h3>Laporan & Audit Trail</h3>
-        <p>Riwayat lengkap setiap transaksi tersimpan otomatis. Ekspor laporan stok, mutasi barang, dan rekap harian dengan mudah.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h3>Multi-User & Role Based</h3>
-        <p>Sistem hak akses bertingkat — admin, supervisor, dan operator memiliki akses yang berbeda sesuai kebutuhan operasional.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- MODULES -->
-<section id="modul" class="modules-section">
-  <div class="container">
-    <div class="section-label">Modul Sistem</div>
-    <h2>Semua yang Dibutuhkan Gudang Anda</h2>
-    <p class="section-sub">RackWise hadir dengan modul lengkap yang saling terintegrasi — tidak perlu berpindah-pindah sistem lagi.</p>
-    <div class="modules-grid">
-      <div class="module-item"><div class="module-num">01</div><span>Manajemen Master Data</span></div>
-      <div class="module-item"><div class="module-num">02</div><span>Penerimaan Barang (GR)</span></div>
-      <div class="module-item"><div class="module-num">03</div><span>Pengeluaran Barang (DO)</span></div>
-      <div class="module-item"><div class="module-num">04</div><span>Manajemen Stok & Inventory</span></div>
-      <div class="module-item"><div class="module-num">05</div><span>Lokasi & Mapping Rak</span></div>
-      <div class="module-item"><div class="module-num">06</div><span>Transfer Antar Lokasi</span></div>
-      <div class="module-item"><div class="module-num">07</div><span>Manajemen Supplier</span></div>
-      <div class="module-item"><div class="module-num">08</div><span>Manajemen Customer</span></div>
-      <div class="module-item"><div class="module-num">09</div><span>Laporan & Rekap Harian</span></div>
-      <div class="module-item"><div class="module-num">10</div><span>Audit Trail & History</span></div>
-      <div class="module-item"><div class="module-num">11</div><span>Manajemen User & Role</span></div>
-      <div class="module-item"><div class="module-num">12</div><span>Dashboard Analitik</span></div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- HOW IT WORKS -->
-<section id="cara-kerja">
-  <div class="container">
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;">
-      <div>
-        <div class="section-label">Alur Operasional</div>
-        <h2>Bagaimana RackWise Bekerja</h2>
-        <p class="section-sub">Proses yang terstruktur memastikan setiap barang tercatat, tersimpan, dan terkirim dengan akurat.</p>
-        <div class="steps" style="margin-top: 2.5rem;">
-          <div class="step">
-            <div class="step-num">1</div>
-            <div class="step-content">
-              <h3>Registrasi & Setup Awal</h3>
-              <p>Daftarkan data master: produk, supplier, customer, dan konfigurasi layout rak gudang Anda.</p>
+    <!-- HOW IT WORKS -->
+    <section id="cara-kerja">
+      <div class="container">
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: start;
+          ">
+          <div>
+            <div class="section-label">Alur Operasional</div>
+            <h2>Bagaimana RackWise Bekerja</h2>
+            <p class="section-sub">
+              Proses yang terstruktur memastikan setiap barang tercatat,
+              tersimpan, dan terkirim dengan akurat.
+            </p>
+            <div class="steps" style="margin-top: 2.5rem">
+              <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                  <h3>Registrasi & Setup Awal</h3>
+                  <p>
+                    Daftarkan data master: produk, supplier, customer, dan
+                    konfigurasi layout rak gudang Anda.
+                  </p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                  <h3>Penerimaan Barang (Inbound)</h3>
+                  <p>
+                    Catat setiap kedatangan barang dengan detail lot, jumlah,
+                    dan penempatan di rak secara otomatis.
+                  </p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                  <h3>Manajemen Gudang</h3>
+                  <p>
+                    Monitor stok secara real-time, lakukan transfer antar
+                    lokasi, dan pastikan kondisi penyimpanan optimal.
+                  </p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                  <h3>Pengiriman Barang (Outbound)</h3>
+                  <p>
+                    Proses delivery order, cetak dokumen pengiriman, dan update
+                    stok otomatis saat barang keluar.
+                  </p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                  <h3>Laporan & Analisis</h3>
+                  <p>
+                    Akses laporan lengkap harian, mingguan, dan bulanan untuk
+                    mendukung keputusan bisnis Anda.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="step">
-            <div class="step-num">2</div>
-            <div class="step-content">
-              <h3>Penerimaan Barang (Inbound)</h3>
-              <p>Catat setiap kedatangan barang dengan detail lot, jumlah, dan penempatan di rak secara otomatis.</p>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">3</div>
-            <div class="step-content">
-              <h3>Manajemen Gudang</h3>
-              <p>Monitor stok secara real-time, lakukan transfer antar lokasi, dan pastikan kondisi penyimpanan optimal.</p>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">4</div>
-            <div class="step-content">
-              <h3>Pengiriman Barang (Outbound)</h3>
-              <p>Proses delivery order, cetak dokumen pengiriman, dan update stok otomatis saat barang keluar.</p>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">5</div>
-            <div class="step-content">
-              <h3>Laporan & Analisis</h3>
-              <p>Akses laporan lengkap harian, mingguan, dan bulanan untuk mendukung keputusan bisnis Anda.</p>
+          <div>
+            <div class="section-label">Teknologi</div>
+            <h2 id="teknologi">Dibangun dengan Teknologi Terkini</h2>
+            <p class="section-sub" style="margin-bottom: 1.5rem">
+              Arsitektur modern yang memastikan performa cepat, aman, dan dapat
+              diandalkan 24/7.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 1rem">
+              <div class="feature-card" style="padding: 1.25rem 1.5rem">
+                <div
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--text-dim);
+                    margin-bottom: 0.5rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.08em;
+                  ">
+                  Frontend
+                </div>
+                <div class="tech-badges" style="margin-top: 0">
+                  <span class="tech-badge">Next.js</span>
+                  <span class="tech-badge">React</span>
+                  <span class="tech-badge">Tailwind CSS</span>
+                  <span class="tech-badge">TypeScript</span>
+                </div>
+              </div>
+              <div class="feature-card" style="padding: 1.25rem 1.5rem">
+                <div
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--text-dim);
+                    margin-bottom: 0.5rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.08em;
+                  ">
+                  Backend & Database
+                </div>
+                <div class="tech-badges" style="margin-top: 0">
+                  <span class="tech-badge">Node.js</span>
+                  <span class="tech-badge">Prisma ORM</span>
+                  <span class="tech-badge">PostgreSQL</span>
+                  <span class="tech-badge">REST API</span>
+                </div>
+              </div>
+              <div class="feature-card" style="padding: 1.25rem 1.5rem">
+                <div
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--text-dim);
+                    margin-bottom: 0.5rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.08em;
+                  ">
+                  Deployment
+                </div>
+                <div class="tech-badges" style="margin-top: 0">
+                  <span class="tech-badge">Vercel</span>
+                  <span class="tech-badge">CI/CD GitHub</span>
+                  <span class="tech-badge">Cloud Hosting</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div>
-        <div class="section-label">Teknologi</div>
-        <h2 id="teknologi">Dibangun dengan Teknologi Terkini</h2>
-        <p class="section-sub" style="margin-bottom: 1.5rem;">Arsitektur modern yang memastikan performa cepat, aman, dan dapat diandalkan 24/7.</p>
-        <div style="display:flex; flex-direction:column; gap:1rem;">
-          <div class="feature-card" style="padding: 1.25rem 1.5rem;">
-            <div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.08em;">Frontend</div>
-            <div class="tech-badges" style="margin-top:0;">
-              <span class="tech-badge">Next.js</span>
-              <span class="tech-badge">React</span>
-              <span class="tech-badge">Tailwind CSS</span>
-              <span class="tech-badge">TypeScript</span>
-            </div>
-          </div>
-          <div class="feature-card" style="padding: 1.25rem 1.5rem;">
-            <div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.08em;">Backend & Database</div>
-            <div class="tech-badges" style="margin-top:0;">
-              <span class="tech-badge">Node.js</span>
-              <span class="tech-badge">Prisma ORM</span>
-              <span class="tech-badge">PostgreSQL</span>
-              <span class="tech-badge">REST API</span>
-            </div>
-          </div>
-          <div class="feature-card" style="padding: 1.25rem 1.5rem;">
-            <div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.08em;">Deployment</div>
-            <div class="tech-badges" style="margin-top:0;">
-              <span class="tech-badge">Vercel</span>
-              <span class="tech-badge">CI/CD GitHub</span>
-              <span class="tech-badge">Cloud Hosting</span>
-            </div>
-          </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="section-label" style="margin-bottom: 1.5rem">
+          Mulai Sekarang
         </div>
+        <h2>Siap Transformasi Gudang Anda?</h2>
+        <p>
+          Akses demo langsung RackWise WMS dan rasakan perbedaan manajemen
+          gudang yang sesungguhnya.
+        </p>
+        <div class="cta-group">
+          <a
+            href="https://rackwise-wms.vercel.app/"
+            target="_blank"
+            class="btn-primary"
+            >Buka Aplikasi →</a
+          >
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-dim)">
+          Demo: admin@rackwise.com · Admin123#
+        </p>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<div class="divider"></div>
-
-<!-- CTA -->
-<section class="cta-section">
-  <div class="container">
-    <div class="section-label" style="margin-bottom:1.5rem;">Mulai Sekarang</div>
-    <h2>Siap Transformasi Gudang Anda?</h2>
-    <p>Akses demo langsung RackWise WMS dan rasakan perbedaan manajemen gudang yang sesungguhnya.</p>
-    <div class="cta-group">
-      <a href="https://rackwise-wms.vercel.app/" target="_blank" class="btn-primary">Buka Aplikasi →</a>
-      <a href="https://github.com/syauqimushoffa-max/rackwise-wms" target="_blank" class="btn-secondary">Lihat di GitHub</a>
-    </div>
-    <p style="margin-top:2rem; font-size:0.8rem; color:var(--text-dim);">Demo: syauqimushoffa@gmail.com · Admin123#</p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <p>Rackwise Warehouse Management System v3.0 &nbsp;|&nbsp; Copyright &copy; 2026 &nbsp;|&nbsp; All rights reserved.</p>
-  <p style="margin-top:0.5rem;">Developed by <a href="https://github.com/syauqimushoffa-max" target="_blank">@syauqimushoffa</a> &nbsp;·&nbsp; Deployed on <a href="https://rackwise-wms.vercel.app/" target="_blank">Vercel</a></p>
-</footer>
-
-</body>
+    <!-- FOOTER -->
+    <footer>
+      <p>
+        Rackwise Warehouse Management System v3.0 &nbsp;|&nbsp; Copyright &copy;
+        2026 &nbsp;|&nbsp; All rights reserved.
+      </p>
+      <p style="margin-top: 0.5rem">
+        Developed by
+        <a href="mailto:syauqimushoffa@gmail.com">@syau_qim</a>
+      </p>
+    </footer>
+  </body>
 </html>
